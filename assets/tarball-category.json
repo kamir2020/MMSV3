@@ -1,0 +1,8 @@
+[
+  { "id": "CT", "name": "Coastal" },
+  { "id": "ES", "name": "Estuary" },
+  { "id": "ISD", "name": "Island-Development" },
+  { "id": "ISP", "name": "Island-Marine Park" },
+  { "id": "ISD", "name": "Island-Protected" },
+  { "id": "ISR", "name": "Island-Resort" }
+]

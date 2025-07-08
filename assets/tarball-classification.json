@@ -1,0 +1,6 @@
+[
+  { "id": "NO", "name": "None" },
+  { "id": "SD", "name": "Sandy" },
+  { "id": "NS", "name": "Non-Sandy" },
+  { "id": "CQ", "name": "Coquina" }
+]

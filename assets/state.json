@@ -1,0 +1,13 @@
+[
+  { "id": "TGG", "name": "Terengganu" },
+  { "id": "KEL", "name": "Kelantan" },
+  { "id": "PHG", "name": "Pahang" },
+  { "id": "KUL", "name": "Kuala Lumpur" },
+  { "id": "SEL", "name": "Selangor" },
+  { "id": "PRK", "name": "Perak" },
+  { "id": "PEN", "name": "Pulau Pinang" },
+  { "id": "KED", "name": "Kedah" },
+  { "id": "NS", "name": "Negeri Sembilan" },
+  { "id": "MEL", "name": "Melaka" },
+  { "id": "JHR", "name": "Johor" }
+]
