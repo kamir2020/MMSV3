@@ -213,17 +213,17 @@ class _SFormInSituSample extends State<SFormInSituSample> {
 
           _latestReadingsBluetooth = readings;
 
-          _doData1.text = (readings['oxygen_concentration'] ?? 0.0).toStringAsFixed(2);
-          _doData2.text = (readings['oxygen_saturation'] ?? 0.0).toStringAsFixed(2);
-          _phData.text = (readings['ph'] ?? 0.0).toStringAsFixed(2);
-          _tempData.text = (readings['temperature'] ?? 0.0).toStringAsFixed(2);
-          _ecData.text = (readings['ec'] ?? 0.0).toStringAsFixed(2);
-          _sanilityData.text = (readings['salinity'] ?? 0.0).toStringAsFixed(2);
-          _tdsData.text = (readings['tds'] ?? 0.0).toStringAsFixed(2);
-          _tssData.text = (readings['tss'] ?? 0.0).toStringAsFixed(2);
-          _turbidityData.text = (readings['turbidity'] ?? 0.0).toStringAsFixed(2);
-          _batteryData.text = (readings['battery'] ?? 0.0).toStringAsFixed(2);
-          _uuidData.text = (readings['sonde_id']?.toInt() ?? 0).toString();
+          _doData1.text = (readings['Optical Dissolved Oxygen: Compensated mg/L'] ?? 0.0).toStringAsFixed(2);
+          _doData2.text = (readings['Optical Dissolved Oxygen: Compensated % Saturation'] ?? 0.0).toStringAsFixed(2);
+          _phData.text = (readings['PH'] ?? 0.0).toStringAsFixed(2);
+          _tempData.text = (readings['External Temp: Degrees Celcius'] ?? 0.0).toStringAsFixed(2);
+          _ecData.text = (readings['Conductivity: us/cm'] ?? 0.0).toStringAsFixed(2);
+          _sanilityData.text = (readings['Conductivity: Salinity'] ?? 0.0).toStringAsFixed(2);
+          _tdsData.text = (readings['Conductivity:TDS mg/L'] ?? 0.0).toStringAsFixed(2);
+          _tssData.text = (readings['Turbidity: TSS'] ?? 0.0).toStringAsFixed(2);
+          _turbidityData.text = (readings['Turbidity: FNU'] ?? 0.0).toStringAsFixed(2);
+          _batteryData.text = (readings['Battery Voltage'] ?? 0.0).toStringAsFixed(2);
+          _uuidData.text = (readings['EXO1 - 4 port Sonde']?.toInt() ?? 0).toString();
 
         });
       }
@@ -260,6 +260,9 @@ class _SFormInSituSample extends State<SFormInSituSample> {
       await _bluetoothManager.connect(selectedDevice);
       // If connection is successful, start the auto-refresh.
       if (_bluetoothManager.connectionState.value == BluetoothConnectionState.connected) {
+        setState(() {
+          _uuidData.text = selectedDevice.address;
+        });
         _bluetoothManager.startAutoReading(interval: const Duration(seconds: 5));
       }
     }
@@ -274,6 +277,7 @@ class _SFormInSituSample extends State<SFormInSituSample> {
   Timer? _dataTimeoutTimer;
   static const platform = MethodChannel('com.example.app_mms/usb');
 
+
   void _connectToSerial() {
     setState(() {
       _isDeviceUSB = true;
@@ -287,21 +291,23 @@ class _SFormInSituSample extends State<SFormInSituSample> {
     _serialManager.dataStream.listen((Map<String, double> readings) {
       _dataTimeoutTimer?.cancel();
       if (mounted) {
+
         setState(() {
           _latestReadingsSerial = readings;
           _statusMessageSerial = 'Data received at ${TimeOfDay.now().format(context)}';
 
-          _doData1.text = (readings['oxygen_concentration'] ?? 0.0).toStringAsFixed(2);
-          _doData2.text = (readings['oxygen_saturation'] ?? 0.0).toStringAsFixed(2);
-          _phData.text = (readings['ph'] ?? 0.0).toStringAsFixed(2);
-          _tempData.text = (readings['temperature'] ?? 0.0).toStringAsFixed(2);
-          _ecData.text = (readings['ec'] ?? 0.0).toStringAsFixed(2);
-          _sanilityData.text = (readings['salinity'] ?? 0.0).toStringAsFixed(2);
-          _tdsData.text = (readings['tds'] ?? 0.0).toStringAsFixed(2);
-          _tssData.text = (readings['tss'] ?? 0.0).toStringAsFixed(2);
-          _turbidityData.text = (readings['turbidity'] ?? 0.0).toStringAsFixed(2);
-          _batteryData.text = (readings['battery'] ?? 0.0).toStringAsFixed(2);
-          _uuidData.text = (readings['sonde_id']?.toInt() ?? 0).toString();
+          _doData1.text = (readings['Optical Dissolved Oxygen: Compensated mg/L'] ?? 0.0).toStringAsFixed(2);
+          _doData2.text = (readings['Optical Dissolved Oxygen: Compensated % Saturation'] ?? 0.0).toStringAsFixed(2);
+          _phData.text = (readings['PH'] ?? 0.0).toStringAsFixed(2);
+          _tempData.text = (readings['External Temp: Degrees Celcius'] ?? 0.0).toStringAsFixed(2);
+          _ecData.text = (readings['Conductivity: us/cm'] ?? 0.0).toStringAsFixed(2);
+          _sanilityData.text = (readings['Conductivity: Salinity'] ?? 0.0).toStringAsFixed(2);
+          _tdsData.text = (readings['Conductivity:TDS mg/L'] ?? 0.0).toStringAsFixed(2);
+          _tssData.text = (readings['Turbidity: TSS'] ?? 0.0).toStringAsFixed(2);
+          _turbidityData.text = (readings['Turbidity: FNU'] ?? 0.0).toStringAsFixed(2);
+          _batteryData.text = (readings['Battery Voltage'] ?? 0.0).toStringAsFixed(2);
+          _uuidData.text = (readings['EXO1 - 4 port Sonde']?.toInt() ?? 0).toString();
+
 
         });
 
@@ -392,6 +398,8 @@ class _SFormInSituSample extends State<SFormInSituSample> {
           if (_serialManager.connectionState.value == SerialConnectionState.connected && mounted) {
             setState(() {
               _statusMessageSerial = 'Connected to ${selectedDevice.productName}';
+              // get device id
+              _uuidData.text = selectedDevice.deviceId.toString();
               _isLoadingSerial = false; // Turn off loading indicator on success
             });
             _serialManager.startAutoReading(interval: const Duration(seconds: 5));
@@ -2478,7 +2486,8 @@ class _SFormInSituSample extends State<SFormInSituSample> {
                         }
                       },
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(height: 5,),
+                    /*
                     _latestReadingsSerial.isEmpty
                         ? const Text("Connect and wait for auto-refresh...", style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic))
                         : Column(
@@ -2497,7 +2506,7 @@ class _SFormInSituSample extends State<SFormInSituSample> {
                           ),
                         );
                       }).toList(),
-                    ),
+                    ),*/
                   ],
                 ),
               ),
